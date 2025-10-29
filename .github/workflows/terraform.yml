@@ -14,14 +14,20 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v4
 
-    # Step 2: Setup Terraform
+    # Step 2: Generate SSH Key Pair
+    - name: Generate SSH Key
+      run: |
+        mkdir -p ~/.ssh
+        ssh-keygen -t rsa -b 4096 -f ~/.ssh/id_rsa -q -N ""
+        echo "SSH Public Key:"
+        cat ~/.ssh/id_rsa.pub
+
+    # Step 3: Setup Terraform
     - name: Setup Terraform
       uses: hashicorp/setup-terraform@v3
       with:
         terraform_version: 1.5.0
 
-    # Step 3: Create credentials file from repository secrets (alternative approach)
-    # Since you don't want GitHub secrets, we'll rely on the var-file that you'll create manually
     # Step 4: Terraform Format Check
     - name: Terraform Format
       run: terraform fmt -check -recursive
@@ -44,4 +50,12 @@ jobs:
 
     # Step 9: Output deployment information
     - name: Show Outputs
-      run: terraform output -json
+      run: terraform output
+
+    # Step 10: Save SSH Private Key (optional - for debugging)
+    - name: Save SSH Private Key
+      if: always()
+      run: |
+        echo "SSH Private Key (save this to connect to VMs):"
+        cat ~/.ssh/id_rsa
+      shell: bash
