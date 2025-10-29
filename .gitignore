@@ -1,84 +1,24 @@
-# Local .terraform directories
-
-.terraform/
-
-
-
-# Terraform plan files
-
-*.tfplan
-
-
-
-# Terraform state files
-
-*.tfstate
-
-*.tfstate.*
-
-
-
-# Crash log files
-
-crash.log
-
-
-
-# Exclude override files
-
-override.tf
-
-override.tf.json
-
-*_override.tf
-
-*_override.tf.json
-
-
-
-# Terraform variable files
-
-*.tfvars
-
-*.tfvars.json
-
-
-
-# Sensitive files
-
-*.auto.tfvars
-
-*.auto.tfvars.json
-
-
-
-# Ignore CLI configuration files
-
-.terraformrc
-
-terraform.rc
-
-
-
-# IDE and OS-specific files
-
-.DS_Store
-
-*.swp
-
-*.swo
-
-*.bak
-
-*.tmp
-
-*.log
-
-
-
-# VS Code settings
-
-.vscode/
+# Terraform
 .terraform/
 *.tfstate
 *.tfstate.backup
+*.tfvars
+terraform.tfstate.lock.info
+
+# Local credential files
+azure_credentials.tfvars
+*.auto.tfvars
+secrets.tfvars
+
+# IDE files
+.vscode/
+.idea/
+
+# SSH keys
+*.pem
+*.pub
+id_rsa
+id_rsa.pub
+
+# Logs
+*.log

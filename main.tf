@@ -7,10 +7,10 @@ locals {
 # Create Resource Group
 resource "azurerm_resource_group" "main" {
   name     = "rg-webapp-${local.timestamp}"
-  location = "Central US"
+  location = var.location
 
   tags = {
-    Environment = "Production"
+    Environment = var.environment
     Project     = "WebApp"
   }
 }
@@ -23,7 +23,7 @@ resource "azurerm_virtual_network" "main" {
   resource_group_name = azurerm_resource_group.main.name
 
   tags = {
-    Environment = "Production"
+    Environment = var.environment
   }
 }
 
@@ -183,7 +183,7 @@ resource "azurerm_linux_virtual_machine" "web" {
   name                = "vm-web-${count.index + 1}"
   location            = azurerm_resource_group.main.location
   resource_group_name = azurerm_resource_group.main.name
-  size                = "Standard_B1ms"  # 1 core to fit quota
+  size                = var.vm_size_web
   availability_set_id = azurerm_availability_set.web.id
   network_interface_ids = [
     azurerm_network_interface.web[count.index].id,
@@ -229,7 +229,7 @@ resource "azurerm_linux_virtual_machine" "app" {
   name                = "vm-app-${count.index + 1}"
   location            = azurerm_resource_group.main.location
   resource_group_name = azurerm_resource_group.main.name
-  size                = "Standard_B1s"  # 1 core to fit quota
+  size                = var.vm_size_app
   availability_set_id = azurerm_availability_set.app.id
   network_interface_ids = [
     azurerm_network_interface.app[count.index].id,

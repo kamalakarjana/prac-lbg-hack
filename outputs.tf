@@ -29,7 +29,7 @@ output "load_balancer_url" {
 output "deployment_summary" {
   value = <<EOT
 
-?? DEPLOYMENT SUCCESSFUL!
+🎉 DEPLOYMENT SUCCESSFUL!
 
 Resource Group: ${azurerm_resource_group.main.name}
 Location: ${azurerm_resource_group.main.location}
@@ -40,7 +40,7 @@ ${join("\n", [for i, vm in azurerm_linux_virtual_machine.web : "  - ${vm.name} (
 App Tier VMs (2):
 ${join("\n", [for i, vm in azurerm_linux_virtual_machine.app : "  - ${vm.name} (${azurerm_network_interface.app[i].private_ip_address})"])}
 
-?? LOAD BALANCER ACCESS:
+🌐 LOAD BALANCER ACCESS:
 Load Balancer Public IP: ${azurerm_public_ip.lb.ip_address}
 Access URL: http://${azurerm_public_ip.lb.ip_address}
 

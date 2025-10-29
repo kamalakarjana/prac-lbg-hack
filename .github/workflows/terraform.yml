@@ -1,0 +1,47 @@
+name: 'Terraform Azure Deployment'
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  terraform:
+    name: 'Terraform'
+    runs-on: ubuntu-latest
+
+    steps:
+    # Step 1: Checkout code
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    # Step 2: Setup Terraform
+    - name: Setup Terraform
+      uses: hashicorp/setup-terraform@v3
+      with:
+        terraform_version: 1.5.0
+
+    # Step 3: Create credentials file from repository secrets (alternative approach)
+    # Since you don't want GitHub secrets, we'll rely on the var-file that you'll create manually
+    # Step 4: Terraform Format Check
+    - name: Terraform Format
+      run: terraform fmt -check -recursive
+
+    # Step 5: Terraform Init
+    - name: Terraform Init
+      run: terraform init
+
+    # Step 6: Terraform Validate
+    - name: Terraform Validate
+      run: terraform validate -no-color
+
+    # Step 7: Terraform Plan
+    - name: Terraform Plan
+      run: terraform plan -var-file="azure_credentials.tfvars" -no-color -input=false
+
+    # Step 8: Terraform Apply
+    - name: Terraform Apply
+      run: terraform apply -var-file="azure_credentials.tfvars" -auto-approve -input=false
+
+    # Step 9: Output deployment information
+    - name: Show Outputs
+      run: terraform output -json
